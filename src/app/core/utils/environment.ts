@@ -2,7 +2,7 @@
  * Copyright Truesense AI Solutions Pvt Ltd, All Rights Reserved.
  */
 
-import { environment } from '../../../environments/environment';
+import { environment } from './env';
 
 export class Environment {
 

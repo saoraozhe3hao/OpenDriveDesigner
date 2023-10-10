@@ -22,18 +22,18 @@ export class AuthGuard implements CanActivate {
 	}
 
 	canActivate (): boolean {
-
-		if ( this.jwt.hasToken() && !this.jwt.isTokenExpired() ) {
-
-			return true;
-
-		} else {
-
-			this.router.navigate( [ '/sessions/signin' ] );
-
-			return false;
-
-		}
+		return true;
+		// if ( this.jwt.hasToken() && !this.jwt.isTokenExpired() ) {
+		//
+		// 	return true;
+		//
+		// } else {
+		//
+		// 	this.router.navigate( [ '/sessions/signin' ] );
+		//
+		// 	return false;
+		//
+		// }
 
 	}
 
