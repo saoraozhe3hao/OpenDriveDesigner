@@ -98,7 +98,7 @@ export class FileService {
 
 		} else {
 
-			throw new Error( 'Unsupported platform. Please contact support for more details.' );
+			console.warn( 'Unsupported platform. Please contact support for more details.' );
 
 		}
 	}
@@ -469,7 +469,7 @@ export class FileService {
 
 	readPathContentsSync ( dirpath ) {
 
-		const files = this.fs.readdirSync( dirpath );
+		const files = this.fs ? this.fs.readdirSync( dirpath ) : [];
 
 		const items = [];
 

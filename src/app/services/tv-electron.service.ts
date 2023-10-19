@@ -100,7 +100,7 @@ export class TvElectronService {
 
 		if ( filePath ) newTitle += ` - ${ filePath }`;
 
-		versions.setTitle( newTitle );
+		typeof versions !== 'undefined' && versions.setTitle( newTitle );
 	}
 
 	openLink ( link: string ) {

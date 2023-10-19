@@ -104,7 +104,7 @@ export class AssetLoaderService {
 
 			console.log( error );
 
-			throw new Error( 'Error in setting up default project folder' );
+			console.warn( 'Error in setting up default project folder' );
 
 		}
 
