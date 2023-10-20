@@ -34,7 +34,7 @@ export class AssetImporterService {
 		this.fs = this.fileService.fs;
 		this.path = this.fileService.path;
 
-		const fileExtension = this.path.extname( filepath );
+		const fileExtension = this.path ? this.path.extname( filepath ) : filepath.substring(filepath.lastIndexOf('.'));
 
 		switch ( fileExtension ) {
 			case '.obj':
@@ -91,7 +91,7 @@ export class AssetImporterService {
 
 		// const dir = filepath.split( '/' ).slice( 0, -1 ).join( '/' ) + '/';
 
-		loader.load( `file:///${ filepath }`, ( gltf ) => {
+		loader.load( `./assets/default-project/${ filepath }`, ( gltf ) => {
 
 			ThreeJsUtils.changeCoordinateSystem( gltf.scene, CoordinateSystem.UNITY_GLTF, CoordinateSystem.OPEN_DRIVE );
 

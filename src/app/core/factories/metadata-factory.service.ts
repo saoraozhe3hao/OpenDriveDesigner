@@ -150,7 +150,7 @@ export class MetadataFactory {
 
 		}
 
-		if ( metadata ) this.saveMetadataFile( path, metadata );
+		// if ( metadata ) this.saveMetadataFile( path, metadata );
 
 		if ( metadata ) AssetDatabase.setMetadata( guid, metadata );
 
@@ -196,7 +196,7 @@ export class MetadataFactory {
 
 		const metadata = { guid: guid, isFolder: true, path: path, importer: null, data: null };
 
-		this.saveMetadataFile( path, metadata );
+		// this.saveMetadataFile( path, metadata );
 
 		AssetDatabase.setMetadata( guid, metadata );
 
@@ -324,7 +324,7 @@ export class MetadataFactory {
 
 		try {
 
-			const texture = new TextureLoader().load( path );
+			const texture = new TextureLoader().load( `./assets/default-project/${ path }` );
 
 			texture.wrapS = RepeatWrapping;
 			texture.wrapT = RepeatWrapping;

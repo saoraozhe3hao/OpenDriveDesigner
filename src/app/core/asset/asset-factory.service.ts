@@ -99,13 +99,22 @@ export class AssetFactory {
 
 		try {
 
-			const result = this.fileService.createFolder( path, name );
+			if( path ) {
 
-			const meta = MetadataFactory.createFolderMetadata( result.path );
+				const result = this.fileService.createFolder( path, name );
 
-			AssetDatabase.setInstance( meta.guid, meta );
+				const meta = MetadataFactory.createFolderMetadata( result.path );
 
-			return result;
+				return result;
+			}
+			else {
+
+				const meta = MetadataFactory.createFolderMetadata( name );
+
+				AssetDatabase.setInstance( meta.guid, meta );
+
+			}
+
 
 		} catch ( error ) {
 
@@ -201,7 +210,7 @@ export class AssetFactory {
 
 		const value = JSON.stringify( material.toJSON(), null, 2 );
 
-		this.fileService.fs.writeFileSync( path, value );
+		// this.fileService.fs.writeFileSync( path, value );
 
 	}
 

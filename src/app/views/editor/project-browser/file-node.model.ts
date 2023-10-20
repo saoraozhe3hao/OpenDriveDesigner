@@ -3,6 +3,7 @@
  */
 
 import { FileService } from 'app/core/io/file.service';
+import {AppConfig} from "../../../app.config";
 
 /** Flat node with expandable and level information */
 export class FileNode {
@@ -29,7 +30,11 @@ export class FileNode {
 
 		// console.log( 'get-sub-files', this.name );
 
-		const files = fileService.readPathContentsSync( this.path );
+		// const files = fileService.readPathContentsSync( this.path );
+
+		const files = AppConfig.default_project.find(item => {
+			return item.path === this.path;
+		}).children;
 
 		const items = [];
 

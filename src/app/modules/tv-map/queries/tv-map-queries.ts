@@ -23,7 +23,7 @@ export abstract class TvBaseQueries {
 	}
 
 	static get roads () {
-		return this.map.roads;
+		return this.map.getRoads();
 	}
 
 }
@@ -53,7 +53,7 @@ export class TvMapQueries extends TvBaseQueries {
 
 	static findRoadById ( id: number ): TvRoad {
 
-		return this.map.roads.get( id );
+		return this.roads[id];
 
 	}
 
@@ -113,13 +113,11 @@ export class TvMapQueries extends TvBaseQueries {
 
 		const point = new Vector2( x, y );
 
-		const roadCount = this.roads.size;
+		const roadCount = this.roads.length;
 
 		let road: TvRoad;
 
-		for ( const keyValue of this.roads ) {
-
-			road = keyValue[ 1 ];
+		for ( const road of this.roads ) {
 
 			if ( roadIdsToIgnore.includes( road.id ) ) continue;
 
@@ -130,7 +128,6 @@ export class TvMapQueries extends TvBaseQueries {
 				const distance = point.distanceTo( nearestPoint );
 
 				if ( distance < minDistance ) {
-
 					minDistance = distance;
 					nearestRoad = road;
 					nearestGeometry = geometry;
@@ -171,9 +168,7 @@ export class TvMapQueries extends TvBaseQueries {
 
 		let road: TvRoad;
 
-		for ( const keyValue of this.roads ) {
-
-			road = keyValue[ 1 ];
+		for ( const road of this.roads ) {
 
 			let geometry: TvAbstractRoadGeometry;
 
@@ -238,7 +233,7 @@ export class TvMapQueries extends TvBaseQueries {
 
 	static getLaneStartPosition ( roadId: number, laneId: number, sCoordinate: number, offset: number = 0, refPos?: TvPosTheta ): Vector3 {
 
-		const road = this.roads.get( roadId );
+		const road = this.roads[ roadId ];
 
 		if ( road === undefined ) throw new Error( `Road with ID: ${ roadId } not found` );
 
@@ -266,7 +261,7 @@ export class TvMapQueries extends TvBaseQueries {
 
 	static getLaneEndPosition ( roadId: number, laneId: number, sCoordinate: number, offset: number = 0, refPos?: TvPosTheta ): Vector3 {
 
-		const road = this.roads.get( roadId );
+		const road = this.roads[roadId];
 
 		if ( road === undefined ) throw new Error( `Road with ID: ${ roadId } not found` );
 
@@ -315,7 +310,7 @@ export class TvMapQueries extends TvBaseQueries {
 			sCoordinate = 0;
 		}
 
-		const road = this.roads.get( roadId );
+		const road = this.roads[roadId];
 
 		if ( road === undefined ) throw new Error( `Road with ID: ${ roadId } not found` );
 

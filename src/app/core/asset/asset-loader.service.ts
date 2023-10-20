@@ -26,6 +26,7 @@ import { RoadStyleImporter } from '../../services/road-style-importer';
 import { FileService } from '../io/file.service';
 import { Metadata, MetaImporter } from '../models/metadata.model';
 import { AssetDatabase } from './asset-database';
+import { AppConfig } from 'app/app.config';
 
 @Injectable( {
 	providedIn: 'root'
@@ -44,7 +45,7 @@ export class AssetLoaderService {
 	constructor ( private fileService: FileService, public modelImporterService: ModelImporterService ) {
 	}
 
-	private get projectDir () {
+	private get projectFolder () {
 		return this.fileService.projectFolder;
 	}
 
@@ -54,7 +55,9 @@ export class AssetLoaderService {
 
 		this.loadDefaultAssets();
 
-		this.loadDirectory( this.fileService.readPathContentsSync( this.projectDir ) );
+		// this.loadDirectory( this.fileService.readPathContentsSync( this.projectFolder ) );
+
+		this.loadDirectory( AppConfig.default_project );
 
 		this.loadTextures();
 
@@ -82,23 +85,22 @@ export class AssetLoaderService {
 		try {
 
 			// create Truevision Folder in user documents if it does not exist
-			if ( !this.fileService.fs.existsSync( this.projectDir ) ) {
+			if ( this.projectFolder && !this.fileService.fs.existsSync( this.projectFolder ) ) {
 
 				this.fileService.createFolder( this.fileService.userDocumentFolder, 'Truevision' );
 
-				AssetFactory.createNewFolder( this.projectDir, 'Materials' );
-				AssetFactory.createNewFolder( this.projectDir, 'Props' );
-				AssetFactory.createNewFolder( this.projectDir, 'Roads' );
-				AssetFactory.createNewFolder( this.projectDir, 'RoadStyles' );
-				AssetFactory.createNewFolder( this.projectDir, 'RoadMarkings' );
-				AssetFactory.createNewFolder( this.projectDir, 'Signs' );
-				AssetFactory.createNewFolder( this.projectDir, 'Scenes' );
-				AssetFactory.createNewFolder( this.projectDir, 'Textures' );
-
-				this.createDefaultAssets();
-
-
 			}
+
+			AssetFactory.createNewFolder( this.projectFolder, 'Materials' );
+			AssetFactory.createNewFolder( this.projectFolder, 'Props' );
+			AssetFactory.createNewFolder( this.projectFolder, 'Roads' );
+			AssetFactory.createNewFolder( this.projectFolder, 'RoadStyles' );
+			AssetFactory.createNewFolder( this.projectFolder, 'RoadMarkings' );
+			AssetFactory.createNewFolder( this.projectFolder, 'Signs' );
+			AssetFactory.createNewFolder( this.projectFolder, 'Scenes' );
+			AssetFactory.createNewFolder( this.projectFolder, 'Textures' );
+
+			this.createDefaultAssets();
 
 		} catch ( error ) {
 
@@ -146,39 +148,42 @@ export class AssetLoaderService {
 
 			let path = null;
 
-			if ( this.fileService.remote.app.isPackaged ) {
+			if ( this.fileService.remote?.app.isPackaged ) {
 
 				const appPath = this.fileService.remote.app.getAppPath();
 
 				path = this.fileService.resolve( appPath, `./default-project/${ folder }` );
 
-			} else {
+			} else if ( this.fileService.currentDirectory ){
 
 				path = this.fileService.join( this.fileService.currentDirectory, `/default-project/${ folder }` );
 
 			}
 
-			this.fileService.readPathContentsSync( path ).forEach( file => {
+			if( path ) {
 
-				const destinationFolder = this.fileService.join( this.projectDir, `/${ folder }/` );
+				this.fileService.readPathContentsSync( path ).forEach( file => {
 
-				const destinationPath = this.fileService.join( destinationFolder, file.name );
+					const destinationFolder = this.fileService.join( this.projectFolder, `/${ folder }/` );
 
-				if ( file.name.includes( '.meta' ) ) {
+					const destinationPath = this.fileService.join( destinationFolder, file.name );
 
-					const metadata = this.fetchMetaFile( file );
+					if ( file.name.includes( '.meta' ) ) {
 
-					metadata.path = destinationPath.replace( '.meta', '' );
+						const metadata = this.fetchMetaFile( file );
 
-					MetadataFactory.saveMetadataFile( destinationPath, metadata );
+						metadata.path = destinationPath.replace( '.meta', '' );
 
-				} else {
+						MetadataFactory.saveMetadataFile( destinationPath, metadata );
 
-					this.fileService.fs.copyFileSync( file.path, destinationPath );
+					} else {
 
-				}
+						this.fileService.fs.copyFileSync( file.path, destinationPath );
 
-			} );
+					}
+
+				} );
+			}
 
 		} catch ( error ) {
 
@@ -198,7 +203,7 @@ export class AssetLoaderService {
 
 				const data: XmlElement = meta.data;
 
-				const texture = new TextureLoader().load( meta.path );
+				const texture = new TextureLoader().load( `./assets/default-project/${meta.path}` );
 
 				texture.uuid = data.uuid;
 				texture.name = data.name;
@@ -239,7 +244,10 @@ export class AssetLoaderService {
 
 			if ( meta.importer == MetaImporter.MATERIAL && meta.guid != 'defaultMaterial' ) {
 
-				const contents = await this.fileService.readAsync( meta.path );
+				// const contents = await this.fileService.readAsync( meta.path );
+				const response = await fetch(`./assets/default-project/${meta.path}`);
+
+				const contents = await response.text();
 
 				const material = materialLoader.parseMaterial( JSON.parse( contents ) );
 
@@ -378,13 +386,24 @@ export class AssetLoaderService {
 
 			if ( meta.importer == MetaImporter.ROAD_STYLE ) {
 
-				this.fileService.readAsync( meta.path ).then( contents => {
+				if( this.projectFolder ) {
+					this.fileService.readAsync( meta.path ).then( contents => {
 
-					const roadStyle = RoadStyleImporter.importFromString( contents );
+						const roadStyle = RoadStyleImporter.importFromString( contents );
 
-					AssetDatabase.setInstance( meta.guid, roadStyle );
+						AssetDatabase.setInstance( meta.guid, roadStyle );
 
-				} );
+					} );
+				}
+				else {
+					fetch(`./assets/default-project/${ meta.path }`).then(res => {
+						res.text().then(contents => {
+							const roadStyle = RoadStyleImporter.importFromString( contents );
+
+							AssetDatabase.setInstance( meta.guid, roadStyle );
+						})
+					})
+				}
 			}
 
 		} );
@@ -395,14 +414,24 @@ export class AssetLoaderService {
 		AssetDatabase.getMetadataAll().forEach( meta => {
 
 			if ( meta.importer === MetaImporter.ROAD_MARKING ) {
+				if( this.projectFolder ) {
+					this.fileService.readAsync( meta.path ).then( contents => {
 
-				this.fileService.readAsync( meta.path ).then( contents => {
+						const marking = TvRoadMarking.importFromString( contents );
 
-					const marking = TvRoadMarking.importFromString( contents );
+						AssetDatabase.setInstance( meta.guid, marking );
 
-					AssetDatabase.setInstance( meta.guid, marking );
+					} );
+				}
+				else {
+					fetch(`./assets/default-project/${ meta.path }`).then(res => {
+						res.text().then(contents => {
+							const marking = TvRoadMarking.importFromString( contents );
 
-				} );
+							AssetDatabase.setInstance( meta.guid, marking );
+						})
+					})
+				}
 			}
 
 		} );
@@ -475,7 +504,7 @@ export class AssetLoaderService {
 
 	// reimportProject () {
 
-	//     this.reimportFiles( this.fileService.readPathContentsSync( this.projectDir ) );
+	//     this.reimportFiles( this.fileService.readPathContentsSync( this.projectFolder ) );
 
 	// }
 
@@ -548,10 +577,13 @@ export class AssetLoaderService {
 
 		files.forEach( file => {
 
-			if ( file.type === 'file' && FileService.getExtension( file.name ) === 'meta' ) this.loadMetadata( file );
+			// if ( file.type === 'file' && FileService.getExtension( file.name ) === 'meta' ) this.loadMetadata( file );
+
+			if ( file.type === 'file') this.loadMetadata( file );
 
 			if ( file.type === 'directory' ) {
-				this.loadDirectory( this.fileService.readPathContentsSync( file.path ) );
+				// this.loadDirectory( this.fileService.readPathContentsSync( file.path ) );
+				this.loadDirectory( file.children );
 			}
 
 		} );
@@ -568,7 +600,9 @@ export class AssetLoaderService {
 
 		try {
 
-			const metadata = this.fetchMetaFile( file );
+			// const metadata = this.fetchMetaFile( file );
+
+			const metadata = file.meta;
 
 			AssetDatabase.setMetadata( metadata.guid, metadata );
 
@@ -635,16 +669,23 @@ export class AssetLoaderService {
 	fetchMetaFile ( file: FileNode | string ): Metadata {
 
 		try {
-
 			let path = null;
 
 			if ( typeof ( file ) === 'string' ) path = file;
 
 			if ( typeof ( file ) === 'object' ) path = file.path;
 
-			if ( !path.includes( '.meta' ) ) path = path + '.meta';
+			if( this.fileService.fs ) {
 
-			return JSON.parse( this.fileService.fs.readFileSync( path, 'utf-8' ) );
+				if ( !path.includes( '.meta' ) ) path = path + '.meta';
+
+				return JSON.parse( this.fileService.fs.readFileSync( path, 'utf-8' ) );
+			}
+			else {
+				return AppConfig.default_project_files.find(file => {
+					return file.path == path;
+				}).meta;
+			}
 
 		} catch ( error ) {
 

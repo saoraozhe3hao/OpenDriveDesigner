@@ -384,6 +384,8 @@ export class PreviewService {
 
 		this.camera.position.z = road.getLeftSideWidth( 0 ) + road.getRightsideWidth( 0 );
 
+		console.log(this.camera.position.z)
+
 		this.renderer.setSize( WIDTH, HEIGHT );
 
 		this.renderer.render( this.scene, this.camera );

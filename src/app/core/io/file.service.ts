@@ -79,7 +79,7 @@ export class FileService {
 	}
 
 	get currentDirectory () {
-		return versions.currentDirectory;
+		return typeof versions !== 'undefined' ? versions.currentDirectory : null;
 	}
 
 	get projectFolder () {

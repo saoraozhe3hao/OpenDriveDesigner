@@ -22,6 +22,7 @@ import { AssetFactory } from 'app/core/asset/asset-factory.service';
 import { TvElectronService } from 'app/services/tv-electron.service';
 import { VehicleCategory } from 'app/modules/scenario/models/tv-enums';
 import { VehicleFactory } from 'app/core/factories/vehicle.factory';
+import { AppConfig } from 'app/app.config';
 
 // const DOCUMENT_PATH = '/home/himanshu/Documents/Truevision/';
 
@@ -36,12 +37,12 @@ export class DynamicDatabase {
 
 	constructor ( private fileService: FileService ) {
 
-		this.init = this.getFolderInPath( this.projectDir, 0 );
+		this.init = this.getFolderInPath( this.projectFolder, 0 );
 
 	}
 
-	// private projectDir = '/home/himanshu/Documents/Truevision';
-	private get projectDir () {
+	// private projectFolder = '/home/himanshu/Documents/Truevision';
+	private get projectFolder () {
 		return this.fileService.projectFolder;
 	}
 
@@ -50,7 +51,7 @@ export class DynamicDatabase {
 
 		return this.init;
 
-		// return this.init = this.getFolderInPath( this.projectDir, 0 );
+		// return this.init = this.getFolderInPath( this.projectFolder, 0 );
 
 		// return this.rootLevelNodes.map( name => new FileNode( name, 0, true ) );
 	}
@@ -190,7 +191,7 @@ export class ProjectBrowserComponent implements OnInit {
 
 	constructor (
 		private fileService: FileService,
-		private assets: AssetLoaderService,
+		private assetLoader: AssetLoaderService,
 		private projectBrowser: ProjectBrowserService,
 		private importer: ImporterService,
 		private appRef: ApplicationRef,
@@ -207,7 +208,7 @@ export class ProjectBrowserComponent implements OnInit {
 
 	ngOnInit () {
 
-		this.assets.init();
+		this.assetLoader.init();
 
 		this.loadFilesInFolder();
 
@@ -242,7 +243,9 @@ export class ProjectBrowserComponent implements OnInit {
 
 	loadFilesInFolder () {
 
-		const files = this.fileService.readPathContentsSync( this.fileService.projectFolder );
+		// const files = this.fileService.readPathContentsSync( this.fileService.projectFolder );
+
+		const files = AppConfig.default_project;
 
 		const tmp = [];
 

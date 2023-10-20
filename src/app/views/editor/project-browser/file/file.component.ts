@@ -20,6 +20,7 @@ import { PreviewService } from 'app/views/inspectors/object-preview/object-previ
 import { TvConsole } from '../../../../core/utils/console';
 import { FileNode } from '../file-node.model';
 import { ProjectBrowserService } from '../project-browser.service';
+import {AppConfig} from "../../../../app.config";
 
 @Component( {
 	selector: 'app-file',
@@ -155,7 +156,6 @@ export class FileComponent implements OnInit {
 			}
 
 			this.metadata = this.assetService.fetchMetaFile( this.file );
-
 		} catch ( error ) {
 
 			console.error( 'error in getting meta', error, this.file );

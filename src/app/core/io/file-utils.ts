@@ -57,7 +57,8 @@ export class FileUtils {
 			return path.split( '/' ).pop();
 		}
 
-		throw new Error( 'unknown platform' + process.platform );
+		// throw new Error( 'unknown platform' + process.platform );
+		return path.split( '/' ).pop();
 	}
 
 	static pathToFileURL ( path: string ): string {
@@ -66,7 +67,9 @@ export class FileUtils {
 
 		const isWindows = AppInfo.electron.isWindows;
 
-		const prefix = isWindows ? 'file:///' : 'file://';
+		// const prefix = isWindows ? 'file:///' : 'file://';
+
+		const prefix = './assets/default-project/';
 
 		if ( isWindows ) {
 			path = path.replace( /\\/g, '/' );
