@@ -25,6 +25,7 @@ import { AppLinks } from '../../../services/app-links';
 import { CommandHistory } from '../../../services/command-history';
 import { ExportGlbDialog } from '../dialogs/export-glb-dialog/export-glb-dialog.component';
 import { TutorialsDialogComponent } from '../dialogs/tutorials-dialog/tutorials-dialog.component';
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component( {
@@ -47,7 +48,8 @@ export class MenuBarComponent implements OnInit {
 		private openDriveExporter: OpenDriveExporter,
 		private roadStyleExporter: RoadExporterService,
 		private inputDialogService: AppInputDialogService,
-		private editorService: EditorService
+		private editorService: EditorService,
+		public translate: TranslateService,
 	) {
 	}
 
@@ -121,6 +123,12 @@ export class MenuBarComponent implements OnInit {
 	onRedo () {
 
 		CommandHistory.redo();
+
+	}
+
+	setLang (lang) {
+
+		this.translate.use( lang );
 
 	}
 

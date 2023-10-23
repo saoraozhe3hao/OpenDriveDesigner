@@ -26,10 +26,10 @@
 			<app-viewport fxFlex="70"></app-viewport>
 
 			<mat-tab-group fxFlex="30">
-				<mat-tab label="Project Browser">
+				<mat-tab [label]="'ProjectBrowser' | translate">
 					<app-project-browser></app-project-browser>
 				</mat-tab>
-				<mat-tab [label]="consoleLabel">
+				<mat-tab [label]="consoleLabel | translate">
 					<app-console></app-console>
 				</mat-tab>
 			</mat-tab-group>

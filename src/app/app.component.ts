@@ -58,8 +58,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		this.trackPageChanges();
 
-		this.translate.setDefaultLang( 'en' );
-
+		this.translate.addLangs(["zh","en"]);
+		this.translate.setDefaultLang( 'zh' );
+		const browserLang = this.translate.getBrowserLang();
+		this.translate.use(browserLang?.match('/zh|/en') ? browserLang : 'zh');
 	}
 
 	ngAfterViewInit () {

@@ -27,22 +27,22 @@
 <mat-toolbar class="viewport-toolbar">
 	<button (click)="changeCamera()"
 			mat-icon-button
-			matTooltip="Switch Camera"
+			[matTooltip]="SwitchCamera"
 			matTooltipPosition="left">
 		<mat-icon>switch_camera</mat-icon>
 	</button>
 	<button (click)="resetCamera()"
 			mat-icon-button
-			matTooltip="Reset Camera"
+			[matTooltip]="ResetCamera"
 			matTooltipPosition="left">
 		<mat-icon>refresh</mat-icon>
 	</button>
-	<button *ngIf="!isProduction" (click)="wireframeMode()"
-			mat-icon-button
-			matTooltip="Wireframe Mode"
-			matTooltipPosition="left">
-		<mat-icon>menu</mat-icon>
-	</button>
+<!--	<button *ngIf="!isProduction" (click)="wireframeMode()"-->
+<!--			mat-icon-button-->
+<!--			matTooltip="Wireframe Mode"-->
+<!--			matTooltipPosition="left">-->
+<!--		<mat-icon>menu</mat-icon>-->
+<!--	</button>-->
 </mat-toolbar>
 
 <div #viewHelper

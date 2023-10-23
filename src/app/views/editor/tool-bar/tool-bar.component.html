@@ -11,9 +11,9 @@
 				action="{{tool.action}}"
 				appTrack="{{tool.track}}"
 				mat-button
-				matTooltip="{{tool.tooltip}}">
+				matTooltip="{{tool.tooltip | translate}}">
 			<mat-icon class="tool-button-icon">{{tool.icon}}</mat-icon>
-			<span class="icon-label">{{tool.label}}</span>
+			<span class="icon-label">{{tool.label  | translate }}</span>
 		</button>
 	</ng-container>
 	<sat-popover #popover

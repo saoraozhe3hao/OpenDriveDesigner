@@ -13,6 +13,7 @@ import { Intersection, Object3D, OrthographicCamera, PerspectiveCamera, Vector3,
 import { SceneService } from '../../../core/services/scene.service';
 import { ViewportService } from '../viewport.service';
 import { Environment } from 'app/core/utils/environment';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component( {
 	selector: 'app-viewport',
@@ -46,12 +47,21 @@ export class ViewportComponent implements OnInit, AfterViewInit, OnDestroy {
 	private lastTime: number = Date.now();
 	private minTime: number = 100;
 	private onCanvas: boolean;
+	public SwitchCamera : string;
+	public ResetCamera : string;
 
 	constructor (
 		private threeService: ThreeService,
 		private eventSystem: EventSystem,
 		private viewportService: ViewportService,
+		public translate: TranslateService,
 	) {
+		translate.get('SwitchCamera').subscribe((res: string) => {
+			this.SwitchCamera = res;
+		});
+		translate.get('ResetCamera').subscribe((res: string) => {
+			this.ResetCamera = res;
+		});
 		this.render = this.render.bind( this );
 	}
 
