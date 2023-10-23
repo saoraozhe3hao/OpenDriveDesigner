@@ -25,6 +25,7 @@ class IToolMenu {
 	icon: string;
 	title?: string;
 	description?: string;
+	descriptionHtml?: string;
 	track: string;
 	tooltip: string;
 	click: Function;
@@ -55,7 +56,7 @@ export class ToolBarComponent implements OnInit {
 			action: 'pointer-tool',
 			icon: 'mouse',
 			title: 'POINTER-TITLE',
-			description: 'Pointer tool is used to view from different angles and to select the objects. You can browse the scene without interacting with any object in the scene',
+			description: 'POINTER-DESCRIPTION',
 			track: 'menu',
 			tooltip: 'POINTER-TITLE',
 			click: () => this.setToolType( ToolType.Pointer ),
@@ -141,7 +142,8 @@ export class ToolBarComponent implements OnInit {
 			track: 'button',
 			tooltip: 'LANE-OFFSET-TITLE',
 			title: 'LANE-OFFSET-TITLE',
-			description: 'This tool allows for precise adjustment of individual lanes in a 3D road network, without the need to shift the entire road"s reference line. Whether it is to add a new turning lane or to modify an existing one <br/><br/> <img src="assets/Lane-Offset-Tool.gif"/>',
+			description: 'LANE-OFFSET-DESCRIPTION',
+			descriptionHtml: '<br/><br/> <img src="assets/Lane-Offset-Tool.gif"/>',
 			click: () => this.setToolType( ToolType.LaneOffset ),
 			enabled: true,
 		},
@@ -208,7 +210,8 @@ export class ToolBarComponent implements OnInit {
 			action: 'maneuver-tool',
 			icon: 'fullscreen_exit',
 			title: 'MANEUVER-TITLE',
-			description: 'Tool to create/edit junction maneuvers <br/> Use SHIFT + LEFT CLICK to select multiple entry/exits <br/> Use LEFT CLICK to select single junction entry/exit <br/> Merge Entry/Exists from inspector to create a junction maneuver <br/><br/> <img src="assets/Maneuver-Tool.gif"/>',
+			description: 'MANEUVER-DESCRIPTION',
+			descriptionHtml: '<br/><br/> <img src="assets/Maneuver-Tool.gif"/>',
 			track: 'button',
 			tooltip: 'MANEUVER-TITLE',
 			click: () => this.setToolType( ToolType.Maneuver ),
@@ -278,7 +281,8 @@ export class ToolBarComponent implements OnInit {
 			track: 'button',
 			tooltip: 'SURFACE-TITLE',
 			title: 'SURFACE-TITLE',
-			description: 'Tool to create simple surface around road networks <br/> Use `SHIFT` + `LEFT CLICK` to create control points <br/> DRAG control points to get desired shape <br/><br/> <img src="assets/Surface-Tool.gif"/>',
+			description: 'SURFACE-DESCRIPTION',
+			descriptionHtml: '<br/><br/> <img src="assets/Surface-Tool.gif"/>',
 			click: () => this.setToolType( ToolType.Surface ),
 			enabled: true,
 		},
