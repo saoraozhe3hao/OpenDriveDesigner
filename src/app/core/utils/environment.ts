@@ -58,7 +58,7 @@ export class Environment {
 
 		try {
 
-			return require( '../../../../package.json' ).version;
+			// return require( '../../../../package.json' ).version;
 
 		} catch ( error ) {
 

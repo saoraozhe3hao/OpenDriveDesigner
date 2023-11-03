@@ -52,3 +52,4 @@ protos/csharp
 bin
 *.pyc
 .env
+.lock

@@ -38,6 +38,10 @@ In brief, you are free to use, modify Truevision Designer for all non-commercial
 
 Your access to and use of Truevision Designer on GitHub is governed by the Truevision Designer End User License Agreement. If you don't agree to those terms, as amended from time to time, you are not permitted to access or use Truevision Designer.
 
+## 构建
+安装依赖：yarn
+调试：npm run serve
+打包：npm run build
 
 ## 二次开发
 非商业目的自由使用、修改

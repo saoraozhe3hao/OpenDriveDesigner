@@ -19,7 +19,7 @@ export class PlayerBarComponent {
 
 	public hasStarted: boolean;
 
-	private handle: NodeJS.Timeout;
+	private handle: any;
 
 	constructor (
 		private playerService: PlayerService,

@@ -155,7 +155,7 @@ export class FileService {
 
 	}
 
-	async showAsyncDialog (): Promise<Electron.OpenDialogReturnValue> {
+	async showAsyncDialog (): Promise<any> {
 
 		const options = {
 			title: 'Select file',
@@ -203,9 +203,9 @@ export class FileService {
 		this.showOpenDialog( options, type, callbackFn );
 	}
 
-	showOpenDialog ( options: Electron.OpenDialogOptions, type, callbackFn: any = null ) {
+	showOpenDialog ( options: any, type, callbackFn: any = null ) {
 
-		this.remote.dialog.showOpenDialog( options ).then( ( res: Electron.OpenDialogReturnValue ) => {
+		this.remote.dialog.showOpenDialog( options ).then( ( res: any ) => {
 
 			if ( res.canceled ) {
 
@@ -259,7 +259,7 @@ export class FileService {
 
 		// const defaultPath = this.path.join( directory, filename );
 
-		const saveOptions: Electron.SaveDialogOptions = {
+		const saveOptions: any = {
 			title: 'Save File',
 			defaultPath: directory,
 			filters: [
@@ -267,7 +267,7 @@ export class FileService {
 			]
 		};
 
-		this.remote.dialog.showSaveDialog( saveOptions ).then( ( res: Electron.SaveDialogReturnValue ) => {
+		this.remote.dialog.showSaveDialog( saveOptions ).then( ( res: any ) => {
 
 			if ( res.canceled ) return;
 
@@ -302,7 +302,7 @@ export class FileService {
 			defaultPath: directory
 		};
 
-		this.remote.dialog.showSaveDialog( options ).then( ( res: Electron.SaveDialogReturnValue ) => {
+		this.remote.dialog.showSaveDialog( options ).then( ( res: any ) => {
 
 			if ( res.canceled || res.filePath == null ) {
 

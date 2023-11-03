@@ -3,7 +3,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MenuItem, MenuItemConstructorOptions } from 'electron';
+// import { MenuItem, MenuItemConstructorOptions } from 'electron';
 import { TvElectronService } from './tv-electron.service';
 
 export enum ContextMenuType {
@@ -22,7 +22,7 @@ export class MenuService {
 	constructor ( private electron: TvElectronService ) {
 	}
 
-	registerContextMenu ( type: ContextMenuType, template: Array<( MenuItemConstructorOptions ) | ( MenuItem )> ) {
+	registerContextMenu ( type: ContextMenuType, template: Array<( any ) | ( any )> ) {
 
 		if ( !this.electron.isElectronApp ) return;
 

@@ -318,55 +318,55 @@ export class ProjectBrowserComponent implements OnInit {
 		switch ( extension ) {
 
 			case FileExtension.GLTF:
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case FileExtension.GLB:
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case FileExtension.OBJ:
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case FileExtension.FBX:
-				DialogFactory.showImportFBXDialog( file.path, destinationPath, extension )
-					?.afterClosed()
-					.subscribe( () => {
-						this.onFolderChanged( this.folder );
-					} );
+				// DialogFactory.showImportFBXDialog( file.path, destinationPath, extension )
+				// 	?.afterClosed()
+				// 	.subscribe( () => {
+				// 		this.onFolderChanged( this.folder );
+				// 	} );
 				break;
 
 			case FileExtension.JPG:
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case FileExtension.JPEG:
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case 'png':
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case 'tga':
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case 'svg':
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			case FileExtension.OPENSCENARIO:
-				DialogFactory.showImportOpenScenarioDialog( file.path, destinationPath, extension )
-					?.afterClosed()
-					.subscribe( () => {
-						this.onFolderChanged( this.folder );
-					} );
+				// DialogFactory.showImportOpenScenarioDialog( file.path, destinationPath, extension )
+				// 	?.afterClosed()
+				// 	.subscribe( () => {
+				// 		this.onFolderChanged( this.folder );
+				// 	} );
 				break;
 
 			case FileExtension.OPENDRIVE:
-				copied = this.copyFile( file.path, destinationPath );
+				//copied = this.copyFile( file.path, destinationPath );
 				break;
 
 			default:

@@ -35,46 +35,46 @@ export class TvElectronService {
 	}
 
 	get isMacOS (): boolean {
-		return this.isElectronApp && process.platform === 'darwin';
+		return this.isElectronApp //&& process.platform === 'darwin';
 	}
 
 	get isWindows (): boolean {
-		return this.isElectronApp && process.platform === 'win32';
+		return this.isElectronApp //&& process.platform === 'win32';
 	}
 
 	get isLinux (): boolean {
-		return this.isElectronApp && process.platform === 'linux';
+		return this.isElectronApp //&& process.platform === 'linux';
 	}
 
 	get isX86 (): boolean {
-		return this.isElectronApp && process.arch === 'ia32';
+		return this.isElectronApp //&& process.arch === 'ia32';
 	}
 
 	get isX64 (): boolean {
-		return this.isElectronApp && process.arch === 'x64';
+		return this.isElectronApp //&& process.arch === 'x64';
 	}
 
 	get isArm (): boolean {
-		return this.isElectronApp && process.arch === 'arm';
+		return this.isElectronApp //&& process.arch === 'arm';
 	}
 
-	get desktopCapturer (): Electron.DesktopCapturer {
+	get desktopCapturer (): any {
 		return this.electron ? this.electron.desktopCapturer : null;
 	}
 
-	get ipcRenderer (): Electron.IpcRenderer {
+	get ipcRenderer (): any {
 		return this.electron ? this.electron.ipcRenderer : null;
 	}
 
-	get webFrame (): Electron.WebFrame {
+	get webFrame (): any {
 		return this.electron ? this.electron.webFrame : null;
 	}
 
-	get clipboard (): Electron.Clipboard {
+	get clipboard (): any {
 		return this.electron ? this.electron.clipboard : null;
 	}
 
-	get crashReporter (): Electron.CrashReporter {
+	get crashReporter (): any {
 		return this.electron ? this.electron.crashReporter : null;
 	}
 
@@ -82,15 +82,15 @@ export class TvElectronService {
 		return this.electron ? this.electron.remote.process : null;
 	}
 
-	get nativeImage (): typeof Electron.nativeImage {
+	get nativeImage (): any {
 		return this.electron ? this.electron.nativeImage : null;
 	}
 
-	get screen (): Electron.Screen {
+	get screen (): any {
 		return this.electron ? this.electron.remote.screen : null;
 	}
 
-	get shell (): Electron.Shell {
+	get shell (): any {
 		return this.electron ? this.electron.shell : null;
 	}
 
